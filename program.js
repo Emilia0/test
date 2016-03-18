@@ -546,9 +546,88 @@ var fibonacci = memoizer([0,1], function (shell,n)  {
 });
 
 
+//ROZDZIAŁ 5 - DZIEDZICZENIE
 
+//DZIEDZICZENIE PSEUDOKLASYCZNE
 
+var Mammal = function(name) {
+    this.name = name;
+};
 
+Mammal.prototype.get_name = function()  {
+    return this.name;
+};
+
+Mammal.prototype.says = function () {
+    return this.saying || '';
+};
+
+//Tworzymy instancję
+
+var myMammal = new Mammal('Mój ssak');
+var name = myMammal.get_name();
+
+//Następnie możemy utworzyć inną pseudoklasę dziedziczącą z Mammal,
+// definiując jej konstruktor i zastępując jej prototyp instancją Mammal
+
+var Cat = function(name)    {
+    this.name = name;
+    this.saying = 'miau';
+};
+
+//Zastępujemy Cat.prototype instancją Mammal
+
+Cat.prototype = new Mammal();
+
+//Rozszerzamy nowy prototyp metodami purr i get_name
+
+Cat.prototype.purr = function (n)   {
+    var i, s ='';
+    for (i=0; i<n; i+=1)    {
+        if (s)  {
+            s += '-';
+        }
+        s += 'r';
+    }
+    return s;
+};
+Cat.prototype.get_name = function ()    {
+    return this.says() + ' '+ this.name + ' ' + this.says();
+};
+
+var myCat = new Cat ('Kicia');
+var says = myCat.says();
+var purr = myCat.purr(5);
+var name = myCat.get_name();
+
+//DZIEDZICZENIE PROTOTYPOWE
+
+var myMammal = {
+    name: "Mój ssak",
+    get_name: function()    {
+        return this.name;
+    },
+    says: function ()   {
+        return this.saying || ' ';
+    }
+};
+
+var myCat = Object.beget(myMammal);
+myCat.name = 'Kicia';
+myCat.saying = 'miau';
+myCat.purr = function (n)   {
+    var i, s= ' ';
+    for (i = 0; i< n; i+= 1)    {
+        if (s)  {
+            s += '-';
+        }
+        s+= 'r';
+    }
+    return s;
+};
+myCat.get_name = function() {
+    return this.says() + ' '+ this.name + ' '+ this.says();
+};
 
 
 
