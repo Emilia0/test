@@ -58,7 +58,7 @@ x.nickname = 'Curly';
 var nick = stooge.nickname;
 //console.log(nick); // nick ma wartość 'curly', ponieważ x oraz stooge odnosza się do tego samego obiektu
 
-var a ={}, b = {}, c={}; // a,b,c odnoszą sie do niezależnych pustych obiektów
+var a = {}, b = {}, c = {}; // a,b,c odnoszą sie do niezależnych pustych obiektów
 
 a = b = c = {}; // odnosza się do tego samego pustego obiektu
 
@@ -67,7 +67,8 @@ a = b = c = {}; // odnosza się do tego samego pustego obiektu
 //Metoda beget tworzy nowy obiekt używając starego obiektu jako prototypu:
 if (typeof Object.beget !== 'function') {
     Object.beget = function (o) {
-        var F = function () {};
+        var F = function () {
+        };
         F.prototype = o;
         return new F();
     };
@@ -174,16 +175,16 @@ MYAPP.flight = {
 
 // LITERAŁ FUNKCJI
 
-var add = function (a,b)    {           //funckja anonimowa - nie ma nazwy
-    return a+b;
+var add = function (a, b) {           //funckja anonimowa - nie ma nazwy
+    return a + b;
 };
 
 //WZORZEC WYWOŁANIA METODY
 
 //Metoda increment pobiera opcjonalny parametr. Jeśli argument nie jest liczbą, wówczas używana jest domyślna wartośc 1.
 var myObject = {
-    value:0,
-    increment: function (inc)   {
+    value: 0,
+    increment: function (inc) {
         this.value += typeof inc === 'number' ? inc : 1;
     }
 };
@@ -198,15 +199,15 @@ myObject.increment(2);
 
 //WZORZEC WYWOŁANIA FUNKCJI
 
-var sum = add(3,4);
+var sum = add(3, 4);
 
 //Jeśli metoda definiuje zmienną i przypisuje jej wartość this, wówczas funkcja wewnętrzna będzie miała
 // dostęp do this poprzez tą zmienną. Zwyczajowo nazywa się taką zmienną that:
 
-myObject.double = function()    {
+myObject.double = function () {
     var that = this;
 
-    var helper = function() {
+    var helper = function () {
         that.value = add(that.value, that.value);
     };
     helper();
@@ -227,7 +228,7 @@ var Quo = function (string) {
 
 //Dodajemy wszystkim instancjom Quo metodę publiczną get-status.
 
-Quo.prototype.get_status = function ()  {
+Quo.prototype.get_status = function () {
     return this.status;
 };
 
@@ -244,7 +245,7 @@ var myQuo = new Quo("zdezorientowany");
 
 //funkcje mogą posiadać metody np: apply(), call(), bind();
 
-var array = [3,4];
+var array = [3, 4];
 var sum = add.apply(null, array);
 
 var statusObject = {
@@ -264,9 +265,9 @@ var status = Quo.prototype.get_status.apply(statusObject);
 //    ale tablicą nie jest. Dzięki niej mamy dostęp do wszystkich argumentów wywołanej funkcji,
 //    dzięki czemu możemy tworzyć funkcje ze zmienną liczbą argumentów.
 
-var sum = function()    {
+var sum = function () {
     var i, sum = 0;
-    for(i = 0; i < arguments.length; i+=1)  {
+    for (i = 0; i < arguments.length; i += 1) {
         sum += arguments[i];
     }
     return sum;
@@ -277,24 +278,24 @@ var sum = function()    {
 
 //JS posiada mechanizm obsługi wyjatków - niepożądanych zdarzeń
 
-var add = function (a,b)    {
+var add = function (a, b) {
     if (typeof a !== 'number' || typeof b !== 'number') {
         throw   {
             name: 'TypeError',
             message: 'funkcja add wymaga przekazania liczb'
         }
     }
-    return a+b;
+    return a + b;
 };
 
 //instrukcja throw przerywa wykonywanie funkcji.
 
 //Tworzymy funkcję try_it, którea wywołuje funkcję add nieprawidłowo
 
-var try_it = function() {
+var try_it = function () {
     try {
         add("siedem");
-    }catch (e)  {
+    } catch (e) {
         //document.writeln(e.name + ': ' + e.message);
     }
 };
@@ -306,7 +307,7 @@ try_it();
 //Dodanie metody do Object.prototype czyni ją dostępną we wszystkich obiektach
 
 
-Function.prototype.method = function (name, func)   {
+Function.prototype.method = function (name, func) {
     this.prototype[name] = func;
     return this;
 };
@@ -317,15 +318,15 @@ Function.prototype.method = function (name, func)   {
 
 //Metoda integer - do wydobycia liczby całkowitej
 
-Number.method('integer', function() {
-    return Math[this< 0 ? 'ceil' : 'floor'](this);
+Number.method('integer', function () {
+    return Math[this < 0 ? 'ceil' : 'floor'](this);
 });
 
 //document.writeln((-15430/3.89).integer());
 
 //Metoda trim do usuwania spacji z początku i końca stringów
 
-String.method('trim', function()    {
+String.method('trim', function () {
     return this.replace(/^\s+|\s+$/g, ' ');
 });
 
@@ -334,9 +335,9 @@ String.method('trim', function()    {
 //Prototypy typów podstawowych są strukturami publicznymi - trzeba uważać przy korzystaniu z wielu bibliotek
 //Metoda ochronna - dodawanie metody tylko wówczas, gdy inna o takiej samej nazwie nie istnieje
 
-Function.prototype.method = function (name, func)   {
-    if (!this.prototype[name])  {
-        this.prototype[name]= func;
+Function.prototype.method = function (name, func) {
+    if (!this.prototype[name]) {
+        this.prototype[name] = func;
     }
 };
 
@@ -351,7 +352,7 @@ function factorial(n) {
     if (n <= 0) {
         return 1;
     } else {
-        return n*factorial(n-1);
+        return n * factorial(n - 1);
     }
 }
 factorial(10);
@@ -359,13 +360,13 @@ factorial(10);
 
 //ZASIĘG - SCOPE
 
-var foo = function()    {
+var foo = function () {
     var a = 3, b = 5;
 
-    var bar = function() {
-        var b= 7, c=11;
-    //    w tym punkcie a wynosi 3, b- 7, c - 11
-        a+= b+c;
+    var bar = function () {
+        var b = 7, c = 11;
+        //    w tym punkcie a wynosi 3, b- 7, c - 11
+        a += b + c;
         //w tym punkcie a wynosi 21, b-7, c-11
     };
 //    w tym punkcie a wynosi 3, b-5, c- nie jest zdefiniowane
@@ -383,14 +384,14 @@ var foo = function()    {
 //    które zostały zadeklarowane na zewnątrz funkcji mimo że zakres ich istnienia się już zakończył.
 //    Istnieją one w środowisku, które jest “doczepione” do funkcji.
 
-var myObject = function()   {
+var myObject = function () {
     var value = 0;
 
-    return  {
-        increment: function(inc)    {
-            value+= typeof inc === 'number' ? inc :1;
+    return {
+        increment: function (inc) {
+            value += typeof inc === 'number' ? inc : 1;
         },
-        getValue:function() {
+        getValue: function () {
             return value;
         }
     }
@@ -402,9 +403,9 @@ var myObject = function()   {
 
 //Tworzymy funkcję quo, która tworzy obiekt posiadający metodę get_status oraz prywatną właściwość status.
 
-var quo = function(status)  {
-    return  {
-        get_status: function()  {
+var quo = function (status) {
+    return {
+        get_status: function () {
             return status;
         }
     };
@@ -422,18 +423,18 @@ var myQuo = quo("zdumiony");
 
 //Definiujemy funkcję, która ustawia kolor węzła DOM na żółty, a następnie rozjaśnia go do białego.
 
-var fade = function (node)  {
+var fade = function (node) {
     var level = 1;
-    var step = function()   {
+    var step = function () {
         var hex = level.toString(16);
         node.style.background = '#FFFF' + hex + hex;
 
-            if (level < 15) {
-            level+=1;
+        if (level < 15) {
+            level += 1;
             setTimeout(step, 100);
         }
     };
-    setTimeout(step,100);
+    setTimeout(step, 100);
 };
 fade(document.body);
 
@@ -446,25 +447,25 @@ fade(document.body);
 
 //tworzymy metodę, która wyszuka encje HTML w stringu i zastąpi je znakami.
 
-String.method('deentityify', function() {
+String.method('deentityify', function () {
 //    Tabela encji. Mapujem nazwy encji na odpowiadajace im znaki.
     var entity = {
         quot: '"',
         lt: '<',
-        gt:'>'
+        gt: '>'
     };
 //    zwraca metodę deentityify
-    return function()   {
-    //    To jest metoda deentityify. Wywołuje ona standardową metodę replace, wyszukując fragmentów
-    //    tekstu zaczynających się od '&' a kończących na ';'.
-    //    jeśli znaki zawarte wewnątrz takeigo fragmentu znajdują się w tabeli encji,
+    return function () {
+        //    To jest metoda deentityify. Wywołuje ona standardową metodę replace, wyszukując fragmentów
+        //    tekstu zaczynających się od '&' a kończących na ';'.
+        //    jeśli znaki zawarte wewnątrz takeigo fragmentu znajdują się w tabeli encji,
         // cała encja jest zastępowana znakiem z tabeli. Funckcja używa wyrażeń regularnych.
 
-        return this.replace( /&([^&;]+);/g,
-        function (a,b)  {
-            var r = entity[b];
-            return typeof r=== 'string' ? r :a;
-        }
+        return this.replace(/&([^&;]+);/g,
+            function (a, b) {
+                var r = entity[b];
+                return typeof r === 'string' ? r : a;
+            }
         );
     };
 }());
@@ -480,20 +481,18 @@ String.method('deentityify', function() {
 //Kaskadowe łączenie wyowałń pozwala na kolejne wywołania wielu metod na tym samym obiekcie w ramach jednej instrukcji.
 
 
-
 //FUNCKJA CURRY
 
 //Pozwala na utworzenie nowej funkcji poprzez łączenie funkcji z jej argumentem:
 
 
-
 //JavaScript nie ma metody curry, ale możemy ją łatwo utworzyć przez rozszerzenie Function.prototype:
 
-Function.method('curry', function ()    {
+Function.method('curry', function () {
     var slice = Array.prototype.slice,
-    args = slice.apply(arguments),
-    that = this;
-    return function()   {
+        args = slice.apply(arguments),
+        that = this;
+    return function () {
         return that.apply(null, args.concat(slice.apply(arguments)));
     };
 });
@@ -509,16 +508,16 @@ var add1 = add.curry(1);
 
 //Przydatne np. przy wyliczaniu ciągu Fibonacciego
 
-var fibonacci = function()  {
-    var memo = [0,1];
-    var fib = function(n)    {
+var fibonacci = function () {
+    var memo = [0, 1];
+    var fib = function (n) {
         var result = memo[n];
-        if (typeof result !== 'number')  {
-            result = fib(n-1)+ fib(n-2);
+        if (typeof result !== 'number') {
+            result = fib(n - 1) + fib(n - 2);
             memo[n] = result;
         }
         return result;
-            };
+    };
     return fib;
 }();
 
@@ -528,9 +527,9 @@ var fibonacci = function()  {
 // zwracać zaś będzie funkcję pomocnicza(nazwaną shell),
 
 var memoizer = function (memo, fundamental) {
-    var shell = function(n) {
+    var shell = function (n) {
         var result = memo[n];
-        if (typeof result !=='number')  {
+        if (typeof result !== 'number') {
             result = fundamental(shell, n);
             memo[n] = result;
         }
@@ -541,8 +540,8 @@ var memoizer = function (memo, fundamental) {
 
 //Używając powyższej funkcji:
 
-var fibonacci = memoizer([0,1], function (shell,n)  {
-    return shell(n-1)+ shell(n-2);
+var fibonacci = memoizer([0, 1], function (shell, n) {
+    return shell(n - 1) + shell(n - 2);
 });
 
 
@@ -550,11 +549,11 @@ var fibonacci = memoizer([0,1], function (shell,n)  {
 
 //DZIEDZICZENIE PSEUDOKLASYCZNE
 
-var Mammal = function(name) {
+var Mammal = function (name) {
     this.name = name;
 };
 
-Mammal.prototype.get_name = function()  {
+Mammal.prototype.get_name = function () {
     return this.name;
 };
 
@@ -570,7 +569,7 @@ var name = myMammal.get_name();
 //Następnie możemy utworzyć inną pseudoklasę dziedziczącą z Mammal,
 // definiując jej konstruktor i zastępując jej prototyp instancją Mammal
 
-var Cat = function(name)    {
+var Cat = function (name) {
     this.name = name;
     this.saying = 'miau';
 };
@@ -581,21 +580,21 @@ Cat.prototype = new Mammal();
 
 //Rozszerzamy nowy prototyp metodami purr i get_name
 
-Cat.prototype.purr = function (n)   {
-    var i, s ='';
-    for (i=0; i<n; i+=1)    {
-        if (s)  {
+Cat.prototype.purr = function (n) {
+    var i, s = '';
+    for (i = 0; i < n; i += 1) {
+        if (s) {
             s += '-';
         }
         s += 'r';
     }
     return s;
 };
-Cat.prototype.get_name = function ()    {
-    return this.says() + ' '+ this.name + ' ' + this.says();
+Cat.prototype.get_name = function () {
+    return this.says() + ' ' + this.name + ' ' + this.says();
 };
 
-var myCat = new Cat ('Kicia');
+var myCat = new Cat('Kicia');
 var says = myCat.says();
 var purr = myCat.purr(5);
 var name = myCat.get_name();
@@ -604,10 +603,10 @@ var name = myCat.get_name();
 
 var myMammal = {
     name: "Mój ssak",
-    get_name: function()    {
+    get_name: function () {
         return this.name;
     },
-    says: function ()   {
+    says: function () {
         return this.saying || ' ';
     }
 };
@@ -615,28 +614,102 @@ var myMammal = {
 var myCat = Object.beget(myMammal);
 myCat.name = 'Kicia';
 myCat.saying = 'miau';
-myCat.purr = function (n)   {
-    var i, s= ' ';
-    for (i = 0; i< n; i+= 1)    {
-        if (s)  {
+myCat.purr = function (n) {
+    var i, s = ' ';
+    for (i = 0; i < n; i += 1) {
+        if (s) {
             s += '-';
         }
-        s+= 'r';
+        s += 'r';
     }
     return s;
 };
-myCat.get_name = function() {
-    return this.says() + ' '+ this.name + ' '+ this.says();
+myCat.get_name = function () {
+    return this.says() + ' ' + this.name + ' ' + this.says();
 };
 
 
+//DZIEDZICZENIE FUNKCYJNE
+
+//Szablon pseudokodu do tworzenia konstruktora funkcyjnego
+
+//var constructor = function (spec, my)   {
+//    var that, unne prywatne zmienne instancyjne;
+//    my= my || {};
+////tu dodajemy do obiektu zmienne i funkcje współdzielone
+//    that = nowy obiekt;
+////    tu dodajemy do obiektu that metody uprzywilejowane
+//
+//    return that;
+//}
+
+//Obiekt spec zawiera wszystkie informacje niezbędne konstruktorowi do utworzenia instancji.
+//Może też być pojedynczą wartością.
+
+//Obiekt my służy do przechowywania chronionych danych, użycie tego obiektu jest opcjonalne.
+
+//Zmienne i funkcje wewnetrzbne utworzone wewnątrz konstruktora stają się zmiennymi i funkcjami prywatnymi instancji.
+
+//Przykład:
+
+var mammal = function (spec) {
+    var that = {};
+    that.get_name = function () {
+        return spec.name;
+    };
+    that.says = function () {
+        return spec.saying || ' ';
+    };
+    return that;
+};
+var myMammal = mammal({name: 'Mój ssak'});
 
 
+var cat = function (spec) {
+    spec.saying = spec.saying || 'miau';
+    var that = mammal(spec);
+    that.purr = function (n) {
+        var i, s = ' ';
+        for (i = 0; i < n; i += 1) {
+            if (s) {
+                s += '-';
+            }
+            s += 'r';
+        }
+        return s;
+    };
+    that.get_name = function () {
+        return that.says() + ' ' + spec.name + ' ' + that.says();
+    };
+    return that;
+};
 
+var myCat = cat({name: 'Kicia'});
 
+//Wzorzec funkcyjny umożliwia również wywołanie metod z obiektów nadrzędnych.
+//metoda superior pobierać będize nazwę metody i zwracać funkcję wywołująca tą metodę.
 
+Object.method('superior', function (name) {
+    var that = this,
+        method = that[name];
+    return function () {
+        return method.apply(that, arguments);
+    };
+});
 
+var coolcat = function(spec)    {
+    var that = cat(spec),
+        super_get_name = that.superior('get_name');
+    that.get_name = function (n)    {
+        return 'Teraz ' + super_get_name() + ' w nowej, lepszej wersji';
+    };
+    return that;
+};
+var myCoolCat = coolcat({name: 'Kocur'});
+var name = myCoolCat.get_name();
 
+// Części
+//Obiekty da się tworzyć ze zbiorów częśći.
 
 
 
