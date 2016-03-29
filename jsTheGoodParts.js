@@ -711,13 +711,139 @@ var name = myCoolCat.get_name();
 // Części
 //Obiekty da się tworzyć ze zbiorów częśći.
 
+//ROZDZIAŁ 6 - TABLICE
+
+//JS dostarcza obiekt, który ma charakterystykę częściowo zbliżoną do tablicy.
+
+var empty = [];
+var numbers = ['zero', 'jeden','dwa', 'trzy', 'cztery', 'pięć', 'sześć', 'siedem', 'osiem', 'dziewięć'];
+
+//console.log(empty[1]);
+//console.log(numbers[1]);
+
+//DŁUGOŚĆ TABLICY
+
+var myArray = [];
+//console.log(myArray.length);
+
+
+//Wartość length jest równa najwyższemu numerowi oznaczającemu jedną z właściwości tablicy, powiększonemu o jeden.
+myArray[1000000] = true;
+//console.log(myArray.length);
+
+
+//Bezpośrednie ustawienie właściwości length na mniejszą, spowoduje usunięcie wszystkich właściwości, których indeks jest większy lub równy nowej długości:
+numbers.length = 3;
+//console.log(numbers);
+
+
+//Nowy element może być dołączony do końca tablicy przez przypisanie go na pozycji równej długości tablicy:
+
+numbers[numbers.length]= 'shi';
+
+//console.log(numbers);
+
+//To samo robi metoda push
+
+numbers.push('go');
+
+//console.log(numbers);
+
+//USUWANIE ELEMENÓW"
+
+//możemy użyć operatora delete do usunięcia elementu z tablicy - ale jego miejsce zajmie undefined, a pozostałe elementy 'nie przesuną się'
+
+delete numbers[2];
+
+//console.log(numbers);
+
+//Metoda splice - pierwszy argument to liczba porządkowa określająca punkt początkow w tablicy, drugi określa liczbę argumentów do usunięcia.
+// Każdy dodatkowy argument zostanie umieszczony w tablicy w miejsce usuniętych:
+
+numbers.splice(2,1);
+
+console.log(numbers);
+
+//Operacja ta może być czasochłonna w wypadku bardzo dużych tablic.
 
 
 
+//WYLICZANIE
+
+//Petla for
+
+var i;
+for (i=0; i<numbers.length; i +=1) {
+    document.writeln(numbers[i]);
+}
+
+//Problem z rozpoznawaniem typu
+
+//Operator typeof zapytany o tablicę zwraca wartość 'object'.
+
+//Własna funkcja sprawdzająca czy coś jest array:
+
+var is_array = function(value)  {
+    return value &&
+            typeof value === 'object' &&
+            typeof value.length === 'number' &&
+            typeof value.splice === 'function' &&
+            !(value.propertyIsEnumerable('length'));
+};
+ //console.log(is_array(numbers));
+
+//oczywiście jest jeszcze metoda:
+
+//console.log(Array.isArray(numbers));
+
+//METODY
+
+//Tak jak do obiektów, tak też do Array.prototype możemy dodawac własne metody np:
+
+Array.method('reduce', function (f, value)  {
+    var i;
+    for (i=0; i<this.length; i +=1) {
+        value = f(this[i], value);
+    }
+    return value;
+});
+
+//Metoda reduce pobiera funckję i wartość początkową; dla każdego elementu tablicy wywołuje ową funckję,
+// przekazując jej dany element i wartość i wylicza nową wartość.
+
+var data = [4,8,15,16,23,42];
+
+var add = function (a,b)    {
+    return a+b;
+};
+var mult = function(a,b)    {
+    return a*b;
+};
+
+//Wywołujemy metodę reduce, przekazując funckję add.
+
+var sum = data.reduce(add,0);
+
+//Wywołujemy metodę reduce, przekazując funkcję mult
+
+var product = data.reduce(mult,1);
 
 
+//Tablice akceptują dowolne łańcuchy jako nazwy właściwości.
 
+//WYMIARY
 
+//Możemy napisać funkcję, która będzie inicjalizować wszystkie elementy tablicy ustaloną wartośćią
 
+Array.dim = function (dimension, initial)   {
+    var a = [], i;
+    for (i=0; i<dimension; i+= 1)   {
+        a[i]= initial;
+    }
+    return a;
+}
+
+//Teraz tworzymy tablicę zawierającą 10 zer.
+var myArray = Array.dim(10,0);
 
 
